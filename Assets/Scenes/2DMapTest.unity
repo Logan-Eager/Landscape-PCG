@@ -182,7 +182,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 100, y: 1, z: 100}
+  m_LocalScale: {x: 241, y: 1, z: 241}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1348938299}
@@ -390,15 +390,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9e90fe0eecc16741a05fb80d70286d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawMode: 1
-  mapWidth: 100
-  mapHeight: 100
-  noiseScale: 25
+  drawMode: 0
+  levelOfDetail: 0
+  noiseScale: 3
   octaves: 5
   persistence: 0.481
   lacunarity: 2
   seed: 0
   offset: {x: -6.4, y: -18.57}
+  meshHeightCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  meshHeightMultiplier: 0
   autoUpdate: 1
   regions:
   - name: DeepWater
