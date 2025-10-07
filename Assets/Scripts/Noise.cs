@@ -1,13 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TreeEditor;
+using Unity.VisualScripting;
 using UnityEditor;
+using UnityEditor.PackageManager.UI;
 using UnityEngine;
 
 public static class Noise
 {
-    
-    public enum NormalizeMode {Local, Global};
-    public static float[,] GenerateNoiseMap(int mapWidth, int mapHeight, int seed, float scale, int octaves, float persistence, float lacunarity, Vector2 offset, NormalizeMode normalizeMode)
+    public enum NormalizeMode { Local, Global };
+    public static float[,] GenerateOldNoiseMap(int mapWidth, int mapHeight, int seed, float scale, int octaves, float persistence, float lacunarity, Vector2 offset, NormalizeMode normalizeMode)
     {
         float[,] noiseMap = new float[mapWidth, mapHeight];
 
@@ -17,6 +20,9 @@ public static class Noise
         float maxPossibleHeight = 0;
         float amplitude = 1;
         float frequency = 1;
+
+        FastNoiseLite noise = new FastNoiseLite();
+        noise.SetNoiseType(FastNoiseLite.NoiseType.Perlin);
 
         for (int i = 0; i < octaves; i++)
         {
@@ -51,8 +57,12 @@ public static class Noise
                 {
                     float sampleX = (x - halfWidth + octaveOffsets[i].x) / scale * frequency;
                     float sampleY = (y - halfHeight + octaveOffsets[i].y) / scale * frequency;
+                    // Now using fastnoiselite for optimisation, rather than mathf
+                    float perlinValue = noise.GetNoise(sampleX, sampleY);
 
-                    float perlinValue = Mathf.PerlinNoise(sampleX, sampleY);
+                    // temp line for debugging
+                    // float perlinValue = Mathf.PerlinNoise(sampleX, sampleY);
+
                     noiseHeight += perlinValue * amplitude;
 
                     amplitude *= persistence;
@@ -67,10 +77,11 @@ public static class Noise
                 {
                     minNoiseHeight = noiseHeight;
                 }
-
                 noiseMap[x, y] = noiseHeight;
             }
         }
+        Debug.Log("max noise: " + maxLocalNoiseHeight + " Min noise" + minNoiseHeight);
+
 
         for (int y = 0; y < mapHeight; y++)
         {
@@ -89,6 +100,30 @@ public static class Noise
                 }
             }
         }
+
+        return noiseMap;
+    }
+
+    public static float[,] GenerateNoiseMap(int mapWidth, int mapHeight, int seed, float scale, int octaves, float persistence, float lacunarity, Vector2 offset, NormalizeMode normalizeMode)
+    {
+        float[,] noiseMap = new float[mapWidth, mapHeight];
+
+        FastNoiseLite noise = new FastNoiseLite(seed);
+
+        noise.SetFractalOctaves(octaves);
+        noise.SetFractalGain(persistence);
+        noise.SetFractalLacunarity(lacunarity);
+        noise.SetNoiseType(FastNoiseLite.NoiseType.Perlin);
+
+        for (int y = 0; y < mapHeight; y++)
+        {
+            for (int x = 0; x < mapWidth; x++)
+            {
+                noiseMap[x, y] = noise.GetNoise(x, y);
+            }
+        }
+
+
 
         return noiseMap;
     }
