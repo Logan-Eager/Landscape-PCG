@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -392,14 +392,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   drawMode: 0
-  normalizeMode: 0
   editorPreviewLOD: 0
-  noiseScale: 0.49
-  octaves: 15
-  persistence: 0.27
-  lacunarity: 12
-  seed: 6
-  offset: {x: 0.22, y: 37.62}
+  noiseScale: 0.31
+  octaves: 3
+  persistence: 0.557
+  lacunarity: 2
+  seed: 1
+  offset: {x: 0, y: 0}
   meshHeightCurve:
     serializedVersion: 2
     m_Curve:

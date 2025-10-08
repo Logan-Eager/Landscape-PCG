@@ -24,7 +24,7 @@ public static class MeshGenerator
             for (int x = 0; x < width; x+= meshSimplificationIncrement)
             {
                 // Flip y so 0 is at the bottom
-                meshData.vertices[vertexIndex] = new Vector3(topLeftX + x, heightCurve.Evaluate(heightMap[x, y]) * heightMultiplier, topLeftZ + y);
+                meshData.vertices[vertexIndex] = new Vector3(topLeftX + x, heightCurve.Evaluate(heightMap[x, y]) * (heightMultiplier * 100), topLeftZ + y);
                 meshData.uvs[vertexIndex] = new Vector2(x / (float)(width - 1), y / (float)(height - 1));
 
                 if (x < width - 1 && y < height - 1)
