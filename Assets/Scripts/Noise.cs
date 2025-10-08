@@ -80,7 +80,6 @@ public static class Noise
                 noiseMap[x, y] = noiseHeight;
             }
         }
-        Debug.Log("max noise: " + maxLocalNoiseHeight + " Min noise" + minNoiseHeight);
 
 
         for (int y = 0; y < mapHeight; y++)
@@ -110,20 +109,19 @@ public static class Noise
 
         FastNoiseLite noise = new FastNoiseLite(seed);
 
+        noise.SetNoiseType(FastNoiseLite.NoiseType.Perlin);
         noise.SetFractalOctaves(octaves);
         noise.SetFractalGain(persistence);
         noise.SetFractalLacunarity(lacunarity);
-        noise.SetNoiseType(FastNoiseLite.NoiseType.Perlin);
-
+        // FOR some reason noise map vals only change with seed
         for (int y = 0; y < mapHeight; y++)
         {
             for (int x = 0; x < mapWidth; x++)
             {
-                noiseMap[x, y] = noise.GetNoise(x, y);
+                float perlinValue = noise.GetNoise(x, y);
+                noiseMap[x, y] = (perlinValue + 1) * 0.5f; // should offset from -1,1 to 0,1
             }
         }
-
-
 
         return noiseMap;
     }
